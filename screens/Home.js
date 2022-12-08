@@ -1,31 +1,31 @@
 import {COLORS, FONTS, SIZES, images} from '../constants/index';
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {
   recentlyViewedMockData,
   trendingMockData,
 } from '../shared/utils/mockData';
 
+import {ModalWithBlur} from '../shared/components/modalWithBlur';
 import {RecentlyViewedCard} from '../shared/components/recentlyViewedItemCard';
 import {TrendingShoes} from '../shared/components/trendingShoes';
+import {useShoes} from '../shared/hooks/useShoes';
 
 const Home = () => {
-  const [showAddToBagModal, setShowAddToBagModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedSize, setSelectedSize] = useState('');
-
   // Dummy Data
   const [trending, setTrending] = useState(trendingMockData);
 
   const [recentlyViewed, setRecentlyViewed] = useState(recentlyViewedMockData);
 
-  const handleSelect = useCallback(item => {
-    setSelectedItem(item);
-  }, []);
-
-  const handleAddToBagModal = useCallback(item => {
-    setShowAddToBagModal(true);
-  }, []);
+  const {
+    isOpenAddToBagModal,
+    selectedItem,
+    selectedSize,
+    onSelectItem,
+    onSelectSize,
+    onOpen,
+    onClose,
+  } = useShoes();
 
   return (
     <View style={styles.container}>
@@ -40,8 +40,8 @@ const Home = () => {
           renderItem={({item, index}) => (
             <TrendingShoes
               item={item}
-              onSelect={handleSelect}
-              onAddToBagModal={handleAddToBagModal}
+              onSelect={onSelectItem}
+              onAddToBagModal={onOpen}
             />
           )}
         />
@@ -67,13 +67,23 @@ const Home = () => {
             renderItem={({item, index}) => (
               <RecentlyViewedCard
                 item={item}
-                onSelect={handleSelect}
-                onAddToBagModal={handleAddToBagModal}
+                onSelect={onSelectItem}
+                onAddToBagModal={onOpen}
               />
             )}
           />
         </View>
       </View>
+
+      {isOpenAddToBagModal && selectedItem && (
+        <ModalWithBlur
+          selectedItem={selectedItem}
+          selectedSize={selectedSize}
+          onSelectItem={onSelectItem}
+          onSelectSize={onSelectSize}
+          onClose={onClose}
+        />
+      )}
     </View>
   );
 };
