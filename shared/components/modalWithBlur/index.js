@@ -54,53 +54,62 @@ export const ModalWithBlur = ({
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isOpen}
-      onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
-      }}>
-      <BlurView
-        style={styles.container}
-        blurType="light"
-        blurAmount={20}
-        reducedTransparencyFallbackColor="white">
-        <TouchableOpacity style={styles.closeBtn} onPress={onClose} />
+    <BlurView
+      style={styles.blurView}
+      blurType="light"
+      blurAmount={20}
+      reducedTransparencyFallbackColor="white">
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isOpen}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.closeBtn} onPress={onClose} />
 
-        <View
-          style={{
-            ...styles.modalContent,
-            backgroundColor: selectedItem.bgColor,
-          }}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={selectedItem.img}
-              resizeMode="contain"
-              style={styles.image}
-            />
-          </View>
-          <Text style={styles.nameText}>{selectedItem.name}</Text>
-          <Text style={styles.typeText}>{selectedItem.type}</Text>
-          <Text style={styles.priceText}>{selectedItem.price}</Text>
-
-          <View style={styles.sizeContainer}>
-            <View>
-              <Text style={styles.sizeText}>Select size</Text>
+          <View
+            style={{
+              ...styles.modalContent,
+              backgroundColor: selectedItem.bgColor,
+            }}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={selectedItem.img}
+                resizeMode="contain"
+                style={styles.image}
+              />
             </View>
-            <View style={styles.sizeList}>{renderShoeSizes()}</View>
-          </View>
+            <Text style={styles.nameText}>{selectedItem.name}</Text>
+            <Text style={styles.typeText}>{selectedItem.type}</Text>
+            <Text style={styles.priceText}>{selectedItem.price}</Text>
 
-          <TouchableOpacity style={styles.addBtn} onPress={onClose}>
-            <Text style={styles.addBtnText}>Add to Bag</Text>
-          </TouchableOpacity>
+            <View style={styles.sizeContainer}>
+              <View>
+                <Text style={styles.sizeText}>Select size</Text>
+              </View>
+              <View style={styles.sizeList}>{renderShoeSizes()}</View>
+            </View>
+
+            <TouchableOpacity style={styles.addBtn} onPress={onClose}>
+              <Text style={styles.addBtnText}>Add to Bag</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </BlurView>
-    </Modal>
+      </Modal>
+    </BlurView>
   );
 };
 
 const styles = StyleSheet.create({
+  blurView: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
