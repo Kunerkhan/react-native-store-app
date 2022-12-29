@@ -22,7 +22,7 @@ export const trendingMockData = [
   {
     id: 2,
     name: 'Nike Air Zoom Kobe 1 Proto',
-    img: images.nikeZoomKobe1Proto,
+    img: images.nikeZoomKobe1Protro,
     bgColor: '#7052A0',
     type: 'BASKETBALL',
     price: '$199',
